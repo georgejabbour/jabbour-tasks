@@ -4,7 +4,9 @@ import Credentials from "next-auth/providers/credentials"
 import type { Provider } from "next-auth/providers"
 import PostgresAdapter from "@auth/pg-adapter"
 import { Pool } from "pg"
- 
+import { exchangeToken } from "./lib/taskHelpers"
+import { parseCookies, setCookie, destroyCookie } from 'nookies'
+
 const pool = new Pool({
   host: process.env.DATABASE_HOST,
   user: process.env.DATABASE_USER,
@@ -37,4 +39,15 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   pages: {
     signIn: "/signin",
   },
+  callbacks: {
+    async signIn({ user, account, profile, email, credentials }): Promise<string | boolean> {
+      console.log("signIn callbacks", { user, account, profile, email, credentials });
+      return true;
+    },
+    async session({ session, token, user }): Promise<any> {
+      session.user.id = user.id
+      console.log("session callbacks", { session, token, user });
+      return session
+    }
+  }
 })

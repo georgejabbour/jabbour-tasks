@@ -1,113 +1,178 @@
-import Image from "next/image";
+'use client';
+
+import { useState } from 'react';
+import { Dialog, DialogBackdrop, DialogPanel, TransitionChild } from '@headlessui/react';
+import {
+  Bars3Icon,
+  CalendarIcon,
+  ChartPieIcon,
+  DocumentDuplicateIcon,
+  FolderIcon,
+  HomeIcon,
+  UsersIcon,
+  XMarkIcon,
+} from '@heroicons/react/24/outline';
+import TaskList from '@/components/taskslist';
+import { useSession } from "next-auth/react"
+
+const navigation = [
+  { name: 'Tasks', href: '/', icon: HomeIcon, current: true },
+  { name: 'Create Task', href: '/tasks/create', icon: FolderIcon, current: false },
+  { name: 'Reports', href: '#', icon: ChartPieIcon, current: false },
+  { name: 'Sign Out', href: '/signout', icon: UsersIcon, current: false },
+  { name: 'Sign In', href: '/signin', icon: UsersIcon, current: false },
+];
+
+function classNames(...classes: any) {
+  return classes.filter(Boolean).join(' ');
+}
 
 export default function Home() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const session = useSession()
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <>
+      <div>
+        <Dialog open={sidebarOpen} onClose={setSidebarOpen} className="relative z-50 lg:hidden">
+          <DialogBackdrop className="fixed inset-0 bg-gray-900/80 transition-opacity duration-300 ease-linear" />
+
+          <div className="fixed inset-0 flex">
+            <DialogPanel className="relative mr-16 flex w-full max-w-xs flex-1 transform transition duration-300 ease-in-out">
+              <TransitionChild>
+                <div className="absolute left-full top-0 flex w-16 justify-center pt-5 duration-300 ease-in-out">
+                  <button type="button" onClick={() => setSidebarOpen(false)} className="-m-2.5 p-2.5">
+                    <span className="sr-only">Close sidebar</span>
+                    <XMarkIcon aria-hidden="true" className="h-6 w-6 text-white" />
+                  </button>
+                </div>
+              </TransitionChild>
+              <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 pb-2 ring-1 ring-white/10">
+                <div className="flex h-16 shrink-0 items-center">
+                  <img
+                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                    alt="Your Company"
+                    className="h-8 w-auto"
+                  />
+                </div>
+                <nav className="flex flex-1 flex-col">
+                  <ul role="list" className="flex flex-1 flex-col gap-y-7">
+                    <li>
+                      <ul role="list" className="-mx-2 space-y-1">
+                        {navigation.map((item) => (
+                          <li key={item.name}>
+                            <a
+                              href={item.href}
+                              className={classNames(
+                                item.current
+                                  ? 'bg-gray-800 text-white'
+                                  : 'text-gray-400 hover:bg-gray-800 hover:text-white',
+                                'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6',
+                              )}
+                            >
+                              <item.icon aria-hidden="true" className="h-6 w-6 shrink-0" />
+                              {item.name}
+                            </a>
+                          </li>
+                          
+                        ))}
+                      </ul>
+                    </li>
+                    {session.status === "authenticated" && session.data.user && (
+                      <li>
+                        <a
+                          href="#"
+                          className={classNames(
+                            'text-gray-400 hover:bg-gray-800 hover:text-white',
+                            'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6',
+                          )}
+                        >
+                          <img
+                            src={session.data.user.image!}
+                            alt={session.data.user.email!}
+                            className="h-6 w-6 rounded-full"
+                          />
+                          {session.data.user.email}
+                        </a>
+                      </li>
+                    )}
+                  </ul>
+                </nav>
+              </div>
+            </DialogPanel>
+          </div>
+        </Dialog>
+
+        {/* Static sidebar for desktop */}
+        <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
+          <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6">
+            <div className="flex h-16 shrink-0 items-center">
+              <img
+                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                alt="Your Company"
+                className="h-8 w-auto"
+              />
+            </div>
+            <nav className="flex flex-1 flex-col">
+              <ul role="list" className="flex flex-1 flex-col gap-y-7">
+                <li>
+                  <ul role="list" className="-mx-2 space-y-1">
+                    {navigation.map((item) => (
+                      <li key={item.name}>
+                        <a
+                          href={item.href}
+                          className={classNames(
+                            item.current
+                              ? 'bg-gray-800 text-white'
+                              : 'text-gray-400 hover:bg-gray-800 hover:text-white',
+                            'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6',
+                          )}
+                        >
+                          <item.icon aria-hidden="true" className="h-6 w-6 shrink-0" />
+                          {item.name}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+                {session.status === "authenticated" && session.data.user && (
+                      <li>
+                        <a
+                          href="#"
+                          className={classNames(
+                            'text-gray-400 hover:bg-gray-800 hover:text-white',
+                            'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6',
+                          )}
+                        >
+                          <img
+                            src={session.data.user.image!}
+                            alt={session.data.user.email!}
+                            className="h-6 w-6 rounded-full"
+                          />
+                          {session.data.user.email}
+                        </a>
+                      </li>
+                    )}
+              </ul>
+            </nav>
+          </div>
         </div>
+
+        <div className="sticky top-0 z-40 flex items-center gap-x-6 bg-gray-900 px-4 py-4 shadow-sm sm:px-6 lg:hidden">
+          <button type="button" onClick={() => setSidebarOpen(true)} className="-m-2.5 p-2.5 text-gray-400 lg:hidden">
+            <span className="sr-only">Open sidebar</span>
+            <Bars3Icon aria-hidden="true" className="h-6 w-6" />
+          </button>
+          <div className="flex-1 text-sm font-semibold leading-6 text-white">Tasks</div>
+        </div>
+
+        <main className="py-10 lg:pl-72">
+          <div className="px-4 sm:px-6 lg:px-8">
+            {/* Task list component goes here */}
+            <TaskList session={session}/>
+          </div>
+        </main>
       </div>
-
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    </>
   );
 }
