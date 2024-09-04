@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 
 // lib/taskHelpers.ts
-const baseUrl = 'http://localhost:8000'
+const baseUrl = 'https://django-server-production-155b.up.railway.app'
 
 export async function fetchTasks() {
   const session = await auth();

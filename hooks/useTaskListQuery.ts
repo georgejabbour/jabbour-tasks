@@ -9,7 +9,7 @@ type Task = {
 };
 
 const fetchTasks = async (sessionToken: string): Promise<Task[]> => {
-  const res = await fetch('http://localhost:8000/api/tasks', {
+  const res = await fetch('https://django-server-production-155b.up.railway.app/api/tasks', {
     headers: {
       Authorization: `Bearer ${sessionToken}`,
     },
@@ -21,7 +21,7 @@ const fetchTasks = async (sessionToken: string): Promise<Task[]> => {
 };
 
 const updateTask = async ({ id, updatedTask, sessionToken }: { id: number, updatedTask: Partial<Task>, sessionToken: string }) => {
-  const res = await fetch(`http://localhost:8000/api/tasks/${id}/`, {
+  const res = await fetch(`https://django-server-production-155b.up.railway.app/api/tasks/${id}/`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ const updateTask = async ({ id, updatedTask, sessionToken }: { id: number, updat
 };
 
 const deleteTask = async ({ id, sessionToken }: { id: number, sessionToken: string }) => {
-  const res = await fetch(`http://localhost:8000/api/tasks/${id}/`, {
+  const res = await fetch(`https://django-server-production-155b.up.railway.app/api/tasks/${id}/`, {
     method: 'DELETE',
     headers: {
       Authorization: `Bearer ${sessionToken}`,
@@ -48,7 +48,7 @@ const deleteTask = async ({ id, sessionToken }: { id: number, sessionToken: stri
 };
 
 const createTask = async ({ newTask, sessionToken }: { newTask: Partial<Task>, sessionToken: string }) => {
-  const res = await fetch('http://localhost:8000/api/tasks/', {
+  const res = await fetch('https://django-server-production-155b.up.railway.app/api/tasks/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
