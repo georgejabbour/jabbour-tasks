@@ -71,7 +71,7 @@ export default function SideNav() {
                                             {session.status === "authenticated" && session.data.user && (
                                                 <SignOut />
                                             )}
-                                            {session.status != "authenticated" || !session.data.user && (
+                                            {(!session || session.status != "authenticated" || !session.data.user) && (
                                                 <SignIn />
                                             )}
                                         </ul>
