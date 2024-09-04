@@ -17,13 +17,6 @@ type Task = {
 };
 
 export default function TaskList({ session }: { session: any }) {
-  console.log('session', session)
-  if (!session) {
-    return redirect("/signin")
-  }
-  const { taskListQuery, updateTaskMutation, deleteTaskMutation, createTaskMutation } = useTaskListQuery(session?.data?.sessionToken);
-  const { isPending, error, data: tasks } = taskListQuery;
-
   const [editableTaskId, setEditableTaskId] = useState<number | null>(null);
   const [editForm, setEditForm] = useState<Partial<Task>>({});
   const [taskTypes, setTaskTypes] = useState<string[]>([]);
@@ -36,10 +29,19 @@ export default function TaskList({ session }: { session: any }) {
   });
   const [showNewTaskModal, setShowNewTaskModal] = useState(false); // Control visibility of the new task modal
   const [isEditMode, setIsEditMode] = useState(false); // Control if the modal is in edit mode
+  const [deleteTaskLoadingTaskID, setDeleteTaskLoadingTaskID] = useState<number | null>(null);
+
+  
+  console.log('session', session)
+  if (!session) {
+    return redirect("/signin")
+  }
+  const { taskListQuery, updateTaskMutation, deleteTaskMutation, createTaskMutation } = useTaskListQuery(session?.data?.sessionToken);
+  const { isPending, error, data: tasks } = taskListQuery;
+
 
   const statusColorMap = statusColorMapConstant;
   const typeColorMap = typeColorMapConstant;
-  const [deleteTaskLoadingTaskID, setDeleteTaskLoadingTaskID] = useState<number | null>(null);
 
   useEffect(() => {
     const types = Array.from(new Set(tasks!.map((task) => task.type)));

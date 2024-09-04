@@ -13,7 +13,7 @@ export default function HomeHero() {
               Jabbour Tasks
             </h1>
             <p className="mt-6 text-lg leading-8 text-gray-100">
-              Log in or sign up to see what's next.
+              Log in or sign up to see what&apos;s next.
             </p>
           </div>
         </div>
