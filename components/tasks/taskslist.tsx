@@ -17,9 +17,6 @@ type Task = {
 };
 
 export default function TaskList({ session }: { session: any }) {
-  if (!session) {
-    return redirect("/signin")
-  }
 
   const [editableTaskId, setEditableTaskId] = useState<number | null>(null);
   const [editForm, setEditForm] = useState<Partial<Task>>({});
@@ -111,6 +108,9 @@ export default function TaskList({ session }: { session: any }) {
 
   const filteredTasks = tasks?.filter((task) => activeTypes.includes(task.type));
 
+  if (!session) {
+    return redirect("/signin")
+  }
   return (
     <div>
       <h1 className="text-5xl font-bold mb-4 text-shadow shadow-gray-400">Your Tasks</h1>
