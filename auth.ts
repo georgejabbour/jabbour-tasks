@@ -41,12 +41,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   callbacks: {
     async signIn({ user, account, profile, email, credentials }): Promise<string | boolean> {
-      console.log("signIn callbacks", { user, account, profile, email, credentials });
+      // console.log("signIn callbacks", { user, account, profile, email, credentials });
       return true;
     },
     async session({ session, token, user }): Promise<any> {
       session.user.id = user.id
-      console.log("session callbacks", { session, token, user });
+      // console.log("session callbacks", { session, token, user });
       return session
     }
   }

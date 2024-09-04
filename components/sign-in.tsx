@@ -1,17 +1,11 @@
+"use client"
+import { signIn } from "next-auth/react"
 
-import { signIn } from "@/auth"
-import { ArrowRightEndOnRectangleIcon } from "@heroicons/react/20/solid"
-
-export default function SignIn() {
+export function SignIn() {
     return (
-        <form
-            action={async () => {
-                "use server"
-                await signIn("google")
-            }}
-        >
-            <button type="submit" className="flex gap-2">
-                <ArrowRightEndOnRectangleIcon className="size-6 text-blue-500" />Sign In with Google</button>
-        </form>
+        <button onClick={() => signIn("google", { redirectTo: "/" })}
+            className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+            Sign In
+        </button>
     )
-} 
+}
