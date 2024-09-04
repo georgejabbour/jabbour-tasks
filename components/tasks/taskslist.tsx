@@ -31,7 +31,7 @@ export default function TaskList({ session }: { session: any }) {
   const [showNewTaskModal, setShowNewTaskModal] = useState(false); // Control visibility of the new task modal
   const [isEditMode, setIsEditMode] = useState(false); // Control if the modal is in edit mode
   const [deleteTaskLoadingTaskID, setDeleteTaskLoadingTaskID] = useState<number | null>(null);
-  
+
   const { taskListQuery, updateTaskMutation, deleteTaskMutation, createTaskMutation } = useTaskListQuery(session?.data?.sessionToken);
   const { isPending, error, data: tasks } = taskListQuery;
 
@@ -40,9 +40,11 @@ export default function TaskList({ session }: { session: any }) {
   const typeColorMap = typeColorMapConstant;
 
   useEffect(() => {
-    const types = Array.from(new Set(tasks!.map((task) => task.type)));
-    setTaskTypes(types);
-    setActiveTypes(types); // Initially show all tasks
+    if (tasks) {
+      const types = Array.from(new Set(tasks!.map((task) => task.type)));
+      setTaskTypes(types);
+      setActiveTypes(types); // Initially show all tasks
+    }
   }, [tasks]);
 
   const handleEdit = (task: Task) => {
@@ -108,9 +110,6 @@ export default function TaskList({ session }: { session: any }) {
 
   const filteredTasks = tasks?.filter((task) => activeTypes.includes(task.type));
 
-  if (!session) {
-    return redirect("/signin")
-  }
   return (
     <div>
       <h1 className="text-5xl font-bold mb-4 text-shadow shadow-gray-400">Your Tasks</h1>
