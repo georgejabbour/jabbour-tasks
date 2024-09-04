@@ -8,9 +8,9 @@ type Task = {
   type: string;
 };
 
-// const baseUrl = 'https://django-server-production-155b.up.railway.app';
-const baseUrl = 'http://localhost:8000';
-
+const baseUrl = 'https://django-server-production-155b.up.railway.app';
+// const baseUrl = 'http://localhost:8000';
+// 
 const fetchTasks = async (sessionToken: string): Promise<Task[]> => {
   const res = await fetch(baseUrl+'/api/tasks', {
     headers: {
