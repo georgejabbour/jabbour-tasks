@@ -15,6 +15,7 @@ export default function HomeHero() {
             <p className="mt-6 text-lg leading-8 text-gray-800 text-shadow-lg shadow-gray-500">
               A simple, RESTFul, React demo app.
             </p>
+            <p className="mt-6 text-lg leading-8 text-gray-800 text-shadow-lg shadow-gray-500">Created by <a target="_blank" className='text-blue-500 hover:text-blue-700 transition ease-in-out' href="https://www.linkedin.com/in/george-jabbour/">George Jabbour</a></p>
             <hr className='mt-3' />
             <ul>
               <li className="mt-2 text-lg leading-8 text-gray-800 text-shadow-lg shadow-gray-500">
