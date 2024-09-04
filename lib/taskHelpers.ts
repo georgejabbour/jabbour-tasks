@@ -6,7 +6,6 @@ const baseUrl = 'http://localhost:8000'
 
 export async function fetchTasks() {
   const session = await auth();
-  console.log('session user', session?.user);
   const res = await fetch(baseUrl + '/api/tasks', {
     headers: {
     }
