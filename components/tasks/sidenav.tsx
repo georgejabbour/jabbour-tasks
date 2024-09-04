@@ -68,13 +68,17 @@ export default function SideNav() {
                                                     Tasks
                                                 </a>
                                             </li>
-                                            {session.status === "authenticated" && session.data.user && (
-                                                <SignOut />
-                                            )}
-                                            {(!session || session.status != "authenticated" || !session.data.user) && (
-                                                <SignIn />
-                                            )}
                                         </ul>
+                                    </li>
+                                    {session.status === "authenticated" && session.data.user && (<ul role="list" className="flex flex-1 flex-col gap-y-7">
+                                    </ul>)}
+                                    <li className='flex justify-center'>
+                                        {session.status === "authenticated" && session.data.user && (
+                                            <SignOut />
+                                        )}
+                                        {(!session || session.status != "authenticated" || !session.data.user) && (
+                                            <SignIn />
+                                        )}
                                     </li>
                                     {session.status === "authenticated" && session.data.user && (
                                         <li>
@@ -82,7 +86,7 @@ export default function SideNav() {
                                                 href="#"
                                                 className={classNames(
                                                     'text-gray-400 hover:bg-gray-800 hover:text-white',
-                                                    'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6',
+                                                    'group flex gap-x-3 rounded-md p-2 mb-2 text-sm font-semibold leading-6',
                                                 )}
                                             >
                                                 <img
@@ -124,13 +128,17 @@ export default function SideNav() {
                                             Tasks
                                         </a>
                                     </li>
-                                    {session.status === "authenticated" && session.data.user && (
-                                        <SignOut />
-                                    )}
-                                    {(!session || session.status != "authenticated" || !session.data.user) && (
-                                        <SignIn />
-                                    )}
                                 </ul>
+                            </li>
+                            {session.status === "authenticated" && session.data.user && (<ul role="list" className="flex flex-1 flex-col gap-y-7">
+                            </ul>)}
+                            <li className='flex justify-center'>
+                                {session.status === "authenticated" && session.data.user && (
+                                    <SignOut />
+                                )}
+                                {(!session || session.status != "authenticated" || !session.data.user) && (
+                                    <SignIn />
+                                )}
                             </li>
                             {session.status === "authenticated" && session.data.user && (
                                 <li>
@@ -138,7 +146,7 @@ export default function SideNav() {
                                         href="#"
                                         className={classNames(
                                             'text-gray-400 hover:bg-gray-800 hover:text-white',
-                                            'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6',
+                                            'group flex gap-x-3 rounded-md p-2 mb-2 text-sm font-semibold leading-6',
                                         )}
                                     >
                                         <img
