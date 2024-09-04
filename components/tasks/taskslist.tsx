@@ -5,11 +5,7 @@ import Spinner from '../primitives/spinner';
 import moment from 'moment';
 import { statusColorMapConstant, typeColorMapConstant } from '@/constants';
 import { CalendarIcon } from "@heroicons/react/20/solid";
-import FormInput from '../forms/FormInput';
-import FormDropdown from '../forms/FormDropdown';
-import FormDatePicker from '../forms/FormDatePicker';
 import NewTaskModal from './NewTaskModal';
-import SignIn from "@/components/sign-in"
 import { redirect } from "next/navigation"
 
 type Task = {
@@ -46,11 +42,9 @@ export default function TaskList({ session }: { session: any }) {
   const [deleteTaskLoadingTaskID, setDeleteTaskLoadingTaskID] = useState<number | null>(null);
 
   useEffect(() => {
-    if (tasks) {
-      const types = Array.from(new Set(tasks.map((task) => task.type)));
-      setTaskTypes(types);
-      setActiveTypes(types); // Initially show all tasks
-    }
+    const types = Array.from(new Set(tasks!.map((task) => task.type)));
+    setTaskTypes(types);
+    setActiveTypes(types); // Initially show all tasks
   }, [tasks]);
 
   const handleEdit = (task: Task) => {

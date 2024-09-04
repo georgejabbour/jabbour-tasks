@@ -1,11 +1,8 @@
-'use client'
+"use client";
 
 import { useState } from 'react'
-import { Dialog, DialogPanel } from '@headlessui/react'
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 
 export default function HomeHero() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
     <div>
@@ -18,14 +15,6 @@ export default function HomeHero() {
             <p className="mt-6 text-lg leading-8 text-gray-100">
               Log in or sign up to see what's next.
             </p>
-            {/* <div className="mt-10 flex items-center justify-center gap-x-6">
-              <a
-                href="/signin"
-                className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Sign in
-              </a>
-            </div> */}
           </div>
         </div>
       </div>
